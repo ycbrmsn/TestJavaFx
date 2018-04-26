@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="250.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.LeftMenuController">
+  <tabs>
+    <Tab text="工程报价">
+         <content>
+            <BorderPane prefHeight="200.0" prefWidth="200.0">
+               <top>
+                  <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="250.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/new_pro.png" />
+                           </image>
+                        </ImageView>
+                        <Separator orientation="VERTICAL" prefHeight="200.0">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Separator>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/new_pro.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
+               </top>
+               <center>
+                  <TreeView fx:id="treeView1" />
+               </center>
+            </BorderPane>
+         </content>
+         <graphic>
+            <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/new_pro.png" />
+               </image>
+            </ImageView>
+         </graphic>
+    </Tab>
+    <Tab text="施工项目">
+         <content>
+            <BorderPane prefHeight="200.0" prefWidth="200.0">
+               <top>
+                  <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="250.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/save_pro.png" />
+                           </image>
+                        </ImageView>
+                        <Separator orientation="VERTICAL" prefHeight="200.0">
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Separator>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/save_pro.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
+               </top>
+               <center>
+                  <ScrollPane prefHeight="500.0" prefWidth="250.0" BorderPane.alignment="CENTER" />
+               </center>
+            </BorderPane>
+         </content>
+         <graphic>
+            <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/save_pro.png" />
+               </image>
+            </ImageView>
+         </graphic>
+    </Tab>
+      <Tab text="使用帮助">
+         <content>
+            <BorderPane prefHeight="200.0" prefWidth="200.0" />
+         </content>
+      </Tab>
+  </tabs>
+</TabPane>

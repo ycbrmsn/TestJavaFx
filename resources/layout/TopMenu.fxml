@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.FlowPane?>
+
+<BorderPane prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.TopMenuController">
+   <top>
+      <MenuBar fx:id="menuBar" prefHeight="32.0" prefWidth="497.0">
+         <menus>
+            <Menu mnemonicParsing="false" text="装饰工程">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="新建工程" />
+                  <MenuItem mnemonicParsing="false" text="保存工程" />
+                  <MenuItem mnemonicParsing="false" text="删除工程" />
+                  <Menu mnemonicParsing="false" text="打印报表">
+                    <items>
+                      <MenuItem mnemonicParsing="false" text="默认报表" />
+                    </items>
+                  </Menu>
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="系统管理">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Delete" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="帮助和版本">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#logout" text="注销" />
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+   </top>
+   <center>
+      <HBox prefHeight="80.0" prefWidth="200.0">
+         <children>
+            <Label alignment="BOTTOM_CENTER" prefHeight="80.0" prefWidth="80.0" text="新建工程">
+               <padding>
+                  <Insets bottom="5.0" />
+               </padding>
+               <styleClass>
+                  <String fx:value="btn-newproject" />
+                  <String fx:value="menu-btn" />
+               </styleClass>
+            </Label>
+            <Separator orientation="VERTICAL" prefHeight="200.0">
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+            </Separator>
+            <Label alignment="BOTTOM_CENTER" prefHeight="80.0" prefWidth="80.0" text="保存工程">
+               <padding>
+                  <Insets bottom="5.0" />
+               </padding>
+               <styleClass>
+                  <String fx:value="btn-saveproject" />
+                  <String fx:value="menu-btn" />
+               </styleClass>
+            </Label>
+         </children>
+      </HBox>
+   </center>
+</BorderPane>

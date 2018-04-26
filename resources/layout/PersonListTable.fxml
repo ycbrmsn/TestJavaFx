@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.FlowPane?>
+
+<TableView prefHeight="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+  <columns>
+    <TableColumn prefWidth="50.0" text="序号" />
+    <TableColumn prefWidth="100.0" text="姓名" />
+    <TableColumn prefWidth="100.0" text="性别" />
+    <TableColumn prefWidth="100.0" text="年龄" />
+    <TableColumn prefWidth="200.0" text="操作" />
+  </columns>
+</TableView>
