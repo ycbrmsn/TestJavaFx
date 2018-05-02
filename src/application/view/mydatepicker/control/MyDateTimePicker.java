@@ -377,7 +377,7 @@ public class MyDateTimePicker extends ComboBoxBase<LocalDateTime> {
   }
 
   // Create a symmetric (format/parse) converter with the default locale.
-  private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm:ss");
+  private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
   private StringConverter<LocalDateTime> defaultConverter = 
       new LocalDateTimeStringConverter(dateTimeFormatter, dateTimeFormatter);
 //      new LocalDateTimeStringConverter(FormatStyle.SHORT, FormatStyle.SHORT, null, getChronology());
