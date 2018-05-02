@@ -24,6 +24,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Pagination;
 import javafx.scene.control.TableCell;
@@ -47,6 +48,7 @@ public class PersonListController extends BaseController {
   @FXML
   private VBox paginationBox;
   
+  private DatePicker datePicker;
   private TableView<Person> mTableView;
   private Pagination mPagination;
   private final ObservableList<Person> data = FXCollections.observableArrayList();

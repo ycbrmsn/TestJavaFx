@@ -189,7 +189,9 @@ public class FrameHelper {
     alert.setTitle(title);
     alert.initOwner(owner);
     Optional<ButtonType> buttonType = alert.showAndWait();
-    if (buttonType.get().getButtonData().equals(ButtonBar.ButtonData.YES)) {
+    if (!buttonType.isPresent()) {
+      return false;
+    } else if (buttonType.get().getButtonData().equals(ButtonBar.ButtonData.OK_DONE)) {
       return true;
     } else {
       return false;
@@ -270,4 +272,5 @@ public class FrameHelper {
   public static Point getModalPoint(Window window) {
     return getModalPoint(window, null);
   }
+  
 }

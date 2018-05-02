@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import application.view.mydatepicker.control.MyDateTimePicker?>
 
 <BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.PersonListController">
    <top>
@@ -30,17 +31,17 @@
                   <Insets left="5.0" right="5.0" />
                </FlowPane.margin>
             </Label>
-            <DatePicker prefWidth="150.0">
+            <MyDateTimePicker prefWidth="200.0">
                <FlowPane.margin>
                   <Insets left="5.0" right="5.0" top="5.0" />
                </FlowPane.margin>
-            </DatePicker>
+            </MyDateTimePicker>
             <Label text="~" />
-            <DatePicker prefWidth="150.0">
+            <MyDateTimePicker prefWidth="200.0">
                <FlowPane.margin>
                   <Insets left="5.0" top="5.0" />
                </FlowPane.margin>
-            </DatePicker>
+            </MyDateTimePicker>
             <Button fx:id="queryBtn" mnemonicParsing="false" text="查询">
                <FlowPane.margin>
                   <Insets left="5.0" top="5.0" />

@@ -11,21 +11,19 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.PersonInfoController">
-   <children>
-      <BorderPane prefHeight="200.0" prefWidth="200.0">
-         <top>
-            <Label text="用户信息" BorderPane.alignment="CENTER">
+<ScrollPane fx:id="scrollPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.PersonInfoController">
+   <content>
+      <VBox fx:id="personVBox">
+         <children>
+            <Label fx:id="personTitleLabel" alignment="CENTER" text="用户信息">
                <font>
                   <Font size="18.0" />
                </font>
-               <BorderPane.margin>
+               <VBox.margin>
                   <Insets bottom="10.0" top="10.0" />
-               </BorderPane.margin>
+               </VBox.margin>
             </Label>
-         </top>
-         <center>
-            <GridPane BorderPane.alignment="CENTER">
+            <GridPane>
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="50.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -45,7 +43,7 @@
                   <Label fx:id="ageLabel" text="xxx" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
-         </center>
-      </BorderPane>
-   </children>
-</VBox>
+         </children>
+      </VBox>
+   </content>
+</ScrollPane>
