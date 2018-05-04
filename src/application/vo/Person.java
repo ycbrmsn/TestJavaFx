@@ -1,11 +1,12 @@
 package application.vo;
 
-public class Person {
+public class Person extends BaseObject {
 
   private Integer id;
   private String name;
   private String gender;
   private Integer age;
+  private String birthday;
   
   public Integer getId() {
     return id;
@@ -31,10 +32,10 @@ public class Person {
   public void setAge(Integer age) {
     this.age = age;
   }
-  
-  @Override
-  public String toString() {
-    return "Person [id=" + id + ", name=" + name + ", gender=" + gender + ", age=" + age + "]";
+  public String getBirthday() {
+    return birthday;
   }
-  
+  public void setBirthday(String birthday) {
+    this.birthday = birthday;
+  }
 }

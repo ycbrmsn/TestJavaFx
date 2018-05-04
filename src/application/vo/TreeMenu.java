@@ -2,7 +2,7 @@ package application.vo;
 
 import java.util.List;
 
-public class TreeMenu {
+public class TreeMenu extends BaseObject {
 
   private Integer id;
   private Integer pid;
@@ -76,11 +76,11 @@ public class TreeMenu {
     this.children = children;
   }
   
-  @Override
-  public String toString() {
-    return "TreeMenu [id=" + id + ", pid=" + pid + ", title=" + title + ", icon=" + icon + ", level=" + level
-        + ", orderBy=" + orderBy + ", target=" + target + ", frame=" + frame + ", enabled=" + enabled + ", children="
-        + children + "]";
-  }
+//  @Override
+//  public String toString() {
+//    return "TreeMenu [id=" + id + ", pid=" + pid + ", title=" + title + ", icon=" + icon + ", level=" + level
+//        + ", orderBy=" + orderBy + ", target=" + target + ", frame=" + frame + ", enabled=" + enabled + ", children="
+//        + children + "]";
+//  }
   
 }

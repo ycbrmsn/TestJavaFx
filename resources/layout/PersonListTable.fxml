@@ -8,8 +8,9 @@
   <columns>
     <TableColumn prefWidth="50.0" text="序号" />
     <TableColumn prefWidth="100.0" text="姓名" />
-    <TableColumn prefWidth="100.0" text="性别" />
-    <TableColumn prefWidth="100.0" text="年龄" />
+    <TableColumn prefWidth="80.0" text="性别" />
+    <TableColumn prefWidth="80.0" text="年龄" />
+    <TableColumn prefWidth="150.0" text="生日" />
     <TableColumn prefWidth="200.0" text="操作" />
   </columns>
 </TableView>

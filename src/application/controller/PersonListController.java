@@ -7,13 +7,20 @@ import static application.helper.Constant.PAGE_SIZE;
 import static application.helper.Constant.PERSON_INFO;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import application.helper.ActionHelper;
+import application.helper.DateTimeHelper;
 import application.helper.FrameHelper;
 import application.helper.Page;
 import application.service.PersonService;
+import application.view.mydatepicker.control.MyDateTimePicker;
 import application.vo.Person;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -24,7 +31,6 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Pagination;
 import javafx.scene.control.TableCell;
@@ -48,12 +54,23 @@ public class PersonListController extends BaseController {
   @FXML
   private VBox paginationBox;
   
-  private DatePicker datePicker;
+  @FXML
+  private MyDateTimePicker timeStartDatePicker;
+  
+  @FXML
+  private MyDateTimePicker timeFinishDatePicker;
+  
   private TableView<Person> mTableView;
   private Pagination mPagination;
   private final ObservableList<Person> data = FXCollections.observableArrayList();
   
+  private DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+  private DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+  
+  private Map<String, String> parameter = new HashMap<>();
   private String name;
+  private LocalDateTime timeStart;
+  private LocalDateTime timeFinish;
   private Page page;
 
   @Override
@@ -63,6 +80,10 @@ public class PersonListController extends BaseController {
   }
   
   private void initViews() {
+    timeStartDatePicker.setConverter(DateTimeHelper.instanceDateTimeConverTer("yyyy-MM-dd"));
+    timeStartDatePicker.setShowTime(false);
+    timeStartDatePicker.setValue(LocalDateTime.of(1990, 1, 4, 0, 0));
+    timeFinishDatePicker.setConverter(DateTimeHelper.instanceDateTimeConverTer("yyyy-MM-dd HH"));
     queryBtn.setOnAction(new EventHandler<ActionEvent>() {
       
       @Override
@@ -92,6 +113,7 @@ public class PersonListController extends BaseController {
             } else {
               int rowIndex = page.getPageIndex() * PAGE_SIZE + this.getIndex() + 1;
               this.setText(String.valueOf(rowIndex));
+              this.setStyle("-fx-alignment: CENTER-RIGHT;");
             }
           }
         };
@@ -101,10 +123,11 @@ public class PersonListController extends BaseController {
     });
     
     // 中间列
-    String[] key = {"name", "gender", "age"};
+    String[] key = {"name", "gender", "age", "birthday"};
     for (int i = 1; i < columns.size() - 1; i++) {
-      TableColumn<Person, ?> column = columns.get(i);
-      column.setCellValueFactory(new PropertyValueFactory<>(key[i - 1]));
+      TableColumn<Person, Object> column = (TableColumn<Person, Object>) columns.get(i);
+      column.setCellValueFactory(new PropertyValueFactory<Person, Object>(key[i - 1]));
+      column.setStyle("-fx-alignment: CENTER-RIGHT;");
     }
     
     // 操作列
@@ -134,6 +157,7 @@ public class PersonListController extends BaseController {
       }
 
     });
+//    lastColumn.setStyle("-fx-alignment: CENTER-RIGHT;");
   }
   
   /**
@@ -141,8 +165,13 @@ public class PersonListController extends BaseController {
    */
   private void search() {
     name = nameTextField.getText().trim();
+    timeStart = timeStartDatePicker.getValue();
+    timeFinish = timeFinishDatePicker.getValue();
+    parameter.put("name", name);
+    parameter.put("timeStart", timeStart == null ? null : timeStart.format(dateFormat));
+    parameter.put("timeFinish", timeFinish == null ? null : timeFinish.format(dateTimeFormat));
     ActionHelper.run(() -> {
-      int total = PersonService.countPerson(name);
+      int total = PersonService.countPerson(parameter);
       page = new Page(0, PAGE_SIZE, total);
     }, () -> {
       mPagination = createPagination(page.getPages(), page.getPageIndex());
@@ -158,9 +187,11 @@ public class PersonListController extends BaseController {
    */
   private void loadData(TableView<Person> tableView) {
     nameTextField.setText(name);
+    timeStartDatePicker.setValue(timeStart);
+    timeFinishDatePicker.setValue(timeFinish);
     new Thread() {
       public void run() {
-        List<Person> list = PersonService.getPerson(page.getPageIndex(), PAGE_SIZE, name);
+        List<Person> list = PersonService.getPerson(page.getPageIndex(), PAGE_SIZE, parameter);
         Platform.runLater(new Runnable() {
           
           @Override
@@ -205,6 +236,12 @@ public class PersonListController extends BaseController {
     private Hyperlink checkLink = new Hyperlink(CHECK);
     private Hyperlink delLink = new Hyperlink(DELETE);
     private HBox hbox = new HBox();
+    {
+      editLink.getStyleClass().add("hyperlink-tablebtn");
+      checkLink.getStyleClass().add("hyperlink-tablebtn");
+      delLink.getStyleClass().add("hyperlink-tablebtn");
+      hbox.setStyle("-fx-alignment: CENTER-RIGHT;");
+    }
     
     public OperatePersonCell(TableView<Person> tableView, String permission) {
       if (permission.indexOf("u") != 0xFFFFFFFF) {

@@ -59,10 +59,14 @@ import javafx.scene.layout.VBox;
 
 public class MyDateTimePickerContent extends VBox {
   protected MyDateTimePicker datePicker;
+  private Button backMoreMonthButton;
   private Button backMonthButton;
   private Button forwardMonthButton;
+  private Button forwardMoreMonthButton;
   private Button backYearButton;
+  private Button backMoreYearButton;
   private Button forwardYearButton;
+  private Button forwardMoreYearButton;
   private Label monthLabel;
   private Label yearLabel;
   protected GridPane gridPane;
@@ -101,7 +105,7 @@ public class MyDateTimePickerContent extends VBox {
    * @return
    */
   static String getString(String key) {
-    return ControlResources.getString("DatePicker." + key);
+    return ControlResources.getString("MyDatePicker." + key);
   }
 
   MyDateTimePickerContent(final MyDateTimePicker datePicker) {
@@ -114,7 +118,11 @@ public class MyDateTimePickerContent extends VBox {
     {
       LocalDateTime date = datePicker.getValue();
       displayedYearMonth.set((date != null) ? YearMonth.from(date) : YearMonth.now());
-      displayedLocalTime.set((date != null) ? date.toLocalTime() : LocalTime.now());
+      if (datePicker.isShowTime()) { // 如果显示时间
+        displayedLocalTime.set((date != null) ? date.toLocalTime() : LocalTime.now());
+      } else {
+        displayedLocalTime.set((date != null) ? date.toLocalTime() : LocalTime.MIN);
+      }
     }
 
     displayedYearMonth.addListener((observable, oldValue, newValue) -> {
@@ -208,7 +216,10 @@ public class MyDateTimePickerContent extends VBox {
     updateGrid();
     getChildren().add(gridPane);
 
-    getChildren().add(createTimePane());
+    HBox timePane = createTimePane();
+    timePane.managedProperty().bind(timePane.visibleProperty());
+    timePane.setVisible(datePicker.isShowTime());
+    getChildren().add(timePane);
 
     getChildren().add(createButtonBar());
 
@@ -306,22 +317,42 @@ public class MyDateTimePickerContent extends VBox {
     HBox monthSpinner = new HBox();
     monthSpinner.getStyleClass().add("spinner");
 
+    backMoreMonthButton = new Button();
+    backMoreMonthButton.getStyleClass().add("left-button");
+    
     backMonthButton = new Button();
     backMonthButton.getStyleClass().add("left-button");
 
     forwardMonthButton = new Button();
     forwardMonthButton.getStyleClass().add("right-button");
+    
+    forwardMoreMonthButton = new Button();
+    forwardMoreMonthButton.getStyleClass().add("right-button");
 
     StackPane leftMonthArrow = new StackPane();
     leftMonthArrow.getStyleClass().add("left-arrow");
     leftMonthArrow.setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
     backMonthButton.setGraphic(leftMonthArrow);
+    
+    StackPane leftMoreMonthArrow = new StackPane();
+    leftMoreMonthArrow.getStyleClass().add("left-double-arrow");
+    leftMoreMonthArrow.setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
+    backMoreMonthButton.setGraphic(leftMoreMonthArrow);
 
     StackPane rightMonthArrow = new StackPane();
     rightMonthArrow.getStyleClass().add("right-arrow");
     rightMonthArrow.setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
     forwardMonthButton.setGraphic(rightMonthArrow);
+    
+    StackPane rightMoreMonthArrow = new StackPane();
+    rightMoreMonthArrow.getStyleClass().add("right-double-arrow");
+    rightMoreMonthArrow.setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
+    forwardMoreMonthButton.setGraphic(rightMoreMonthArrow);
 
+    backMoreMonthButton.setOnAction(t -> {
+      forward(-3, MONTHS, false);
+    });
+    
     backMonthButton.setOnAction(t -> {
       forward(-1, MONTHS, false);
     });
@@ -332,8 +363,12 @@ public class MyDateTimePickerContent extends VBox {
     forwardMonthButton.setOnAction(t -> {
       forward(1, MONTHS, false);
     });
+    
+    forwardMoreMonthButton.setOnAction(t -> {
+      forward(3, MONTHS, false);
+    });
 
-    monthSpinner.getChildren().addAll(backMonthButton, monthLabel, forwardMonthButton);
+    monthSpinner.getChildren().addAll(backMoreMonthButton, backMonthButton, monthLabel, forwardMonthButton, forwardMoreMonthButton);
     monthYearPane.setLeft(monthSpinner);
 
     // Year spinner
@@ -341,11 +376,22 @@ public class MyDateTimePickerContent extends VBox {
     HBox yearSpinner = new HBox();
     yearSpinner.getStyleClass().add("spinner");
 
+    backMoreYearButton = new Button();
+    backMoreYearButton.getStyleClass().add("left-button");
+
     backYearButton = new Button();
     backYearButton.getStyleClass().add("left-button");
 
     forwardYearButton = new Button();
     forwardYearButton.getStyleClass().add("right-button");
+    
+    forwardMoreYearButton = new Button();
+    forwardMoreYearButton.getStyleClass().add("right-button");
+    
+    StackPane leftMoreYearArrow = new StackPane();
+    leftMoreYearArrow.getStyleClass().add("left-double-arrow");
+    leftMoreYearArrow.setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
+    backMoreYearButton.setGraphic(leftMoreYearArrow);
 
     StackPane leftYearArrow = new StackPane();
     leftYearArrow.getStyleClass().add("left-arrow");
@@ -356,7 +402,16 @@ public class MyDateTimePickerContent extends VBox {
     rightYearArrow.getStyleClass().add("right-arrow");
     rightYearArrow.setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
     forwardYearButton.setGraphic(rightYearArrow);
+    
+    StackPane rightMoreYearArrow = new StackPane();
+    rightMoreYearArrow.getStyleClass().add("right-double-arrow");
+    rightMoreYearArrow.setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
+    forwardMoreYearButton.setGraphic(rightMoreYearArrow);
 
+    backMoreYearButton.setOnAction(t -> {
+      forward(-10, YEARS, false);
+    });
+    
     backYearButton.setOnAction(t -> {
       forward(-1, YEARS, false);
     });
@@ -367,8 +422,12 @@ public class MyDateTimePickerContent extends VBox {
     forwardYearButton.setOnAction(t -> {
       forward(1, YEARS, false);
     });
+    
+    forwardMoreYearButton.setOnAction(t -> {
+      forward(10, YEARS, false);
+    });
 
-    yearSpinner.getChildren().addAll(backYearButton, yearLabel, forwardYearButton);
+    yearSpinner.getChildren().addAll(backMoreYearButton, backYearButton, yearLabel, forwardYearButton, forwardMoreYearButton);
     yearSpinner.setFillHeight(false);
     monthYearPane.setRight(yearSpinner);
 
@@ -390,7 +449,6 @@ public class MyDateTimePickerContent extends VBox {
     hourComboBox = new ComboBox<>(hourList);
 //    hourComboBox.setEditable(true);
     hourComboBox.setPrefWidth(comboBoxWidth);
-//    hourComboBox.setValue("00");
     hourComboBox.getSelectionModel().selectedItemProperty()
         .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
           updateTime();
@@ -398,7 +456,6 @@ public class MyDateTimePickerContent extends VBox {
     minuteComboBox = new ComboBox<>(minuteList);
 //    minuteComboBox.setEditable(true);
     minuteComboBox.setPrefWidth(comboBoxWidth);
-//    minuteComboBox.setValue("00");
     minuteComboBox.getSelectionModel().selectedItemProperty()
       .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
       updateTime();
@@ -406,7 +463,6 @@ public class MyDateTimePickerContent extends VBox {
     secondComboBox = new ComboBox<>(minuteList);
 //    secondComboBox.setEditable(true);
     secondComboBox.setPrefWidth(comboBoxWidth);
-//    secondComboBox.setValue("00");
     secondComboBox.getSelectionModel().selectedItemProperty()
       .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
       updateTime();
@@ -414,7 +470,7 @@ public class MyDateTimePickerContent extends VBox {
     Label label1 = new Label(":");
     Label label2 = new Label(":");
     Insets labelInsets = new Insets(2);
-    Insets ins5 = new Insets(5);
+    Insets ins5 = new Insets(5, 5, 0, 5);
     hBox.setAlignment(Pos.CENTER_LEFT);
     hBox.setPadding(ins5);
     hBox.setMargin(timeLabel, new Insets(0, 5, 0, 0));
@@ -425,7 +481,8 @@ public class MyDateTimePickerContent extends VBox {
   }
   
   private String getDateTimeString() {
-    return hourComboBox.getValue() + ":" + minuteComboBox.getValue() + ":" + secondComboBox.getValue();
+    return datePicker.isShowTime() ? (hourComboBox.getValue() + ":" + minuteComboBox.getValue() 
+      + ":" + secondComboBox.getValue()) : "00:00:00";
   }
   
   private void updateTime() {
@@ -444,21 +501,29 @@ public class MyDateTimePickerContent extends VBox {
     Insets buttonInsets = new Insets(0, 0, 0, 5);
     Button clearButton = new Button("清空");
     Button zeroButton = new Button("归零");
-    Button todayButton = new Button("现在");
+    Button todayButton = datePicker.isShowTime() ? new Button("现在") : new Button("今天");
     Button sureButton = new Button("关闭");
     clearButton.setOnAction(event -> {
       datePicker.setValue(null);
 //      datePicker.hide();
     });
+    zeroButton.managedProperty().bind(zeroButton.visibleProperty());
+    zeroButton.setVisible(datePicker.isShowTime());
     zeroButton.setOnAction(event -> {
       hourComboBox.setValue("00");
       minuteComboBox.setValue("00");
       secondComboBox.setValue("00");
     });
     todayButton.setOnAction(event -> {
-      LocalDateTime nowDateTime = LocalDateTime.now();
-      datePicker.setValue(nowDateTime);
-      displayedLocalTime.set(nowDateTime.toLocalTime());
+      if (datePicker.isShowTime()) { // 如果显示时间
+        LocalDateTime nowDateTime = LocalDateTime.now();
+        datePicker.setValue(nowDateTime);
+        displayedLocalTime.set(nowDateTime.toLocalTime());
+      } else {
+        LocalDate nowDate = LocalDate.now();
+        datePicker.setValue(nowDate.atTime(LocalTime.MIN));
+        displayedLocalTime.set(LocalTime.MIN);
+      }
 //      datePicker.hide();
     });
     sureButton.setOnAction(event -> {
@@ -467,12 +532,15 @@ public class MyDateTimePickerContent extends VBox {
       }
       datePicker.hide();
     });
-    hBox.getChildren().addAll(clearButton, zeroButton, todayButton, sureButton);
+    hBox.getChildren().add(clearButton);
+    hBox.getChildren().add(zeroButton);
+    hBox.getChildren().add(todayButton);
+    hBox.getChildren().add(sureButton);
     hBox.setMargin(zeroButton, buttonInsets);
     hBox.setMargin(clearButton, buttonInsets);
     hBox.setMargin(todayButton, buttonInsets);
     hBox.setMargin(sureButton, buttonInsets);
-    hBox.setPadding(new Insets(0, 5, 5, 5));
+    hBox.setPadding(new Insets(5));
     return hBox;
   }
 
@@ -732,7 +800,7 @@ public class MyDateTimePickerContent extends VBox {
     return str;
   }
   
-  private void updateTimePane() {
+  void updateTimePane() {
     LocalTime localTime = displayedLocalTime.getValue();
     String hour = MyDatePickerHelper.formatHMS(localTime.getHour());
     String minute = MyDatePickerHelper.formatHMS(localTime.getMinute());

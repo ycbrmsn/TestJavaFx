@@ -1,6 +1,7 @@
 package application.view.mydatepicker.control;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.YearMonth;
 import java.time.chrono.HijrahChronology;
 
@@ -50,6 +51,7 @@ public class MyDateTimePickerSkin extends ComboBoxPopupControl<LocalDateTime> {
     registerChangeListener(datePicker.converterProperty(), "CONVERTER");
     registerChangeListener(datePicker.dayCellFactoryProperty(), "DAY_CELL_FACTORY");
     registerChangeListener(datePicker.showWeekNumbersProperty(), "SHOW_WEEK_NUMBERS");
+    registerChangeListener(datePicker.showTimeProperty(), "SHOW_TIME");
     registerChangeListener(datePicker.valueProperty(), "VALUE");
   }
 
@@ -119,7 +121,13 @@ public class MyDateTimePickerSkin extends ComboBoxPopupControl<LocalDateTime> {
       if (datePickerContent != null) {
         LocalDateTime date = datePicker.getValue();
         datePickerContent.displayedYearMonthProperty().set((date != null) ? YearMonth.from(date) : YearMonth.now());
+        if (datePicker.isShowTime()) { // 如果显示时间
+          datePickerContent.displayedLocalTimeProperty().set((date != null) ? date.toLocalTime() : LocalTime.now());
+        } else {
+          datePickerContent.displayedLocalTimeProperty().set((date != null) ? date.toLocalTime() : LocalTime.MIN);
+        }
         datePickerContent.updateValues();
+        datePickerContent.updateTimePane();
       }
       datePicker.fireEvent(new ActionEvent());
     } else {

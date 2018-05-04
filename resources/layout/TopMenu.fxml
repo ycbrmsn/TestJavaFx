@@ -64,6 +64,16 @@
                   <String fx:value="menu-btn" />
                </styleClass>
             </Label>
+            <Separator orientation="VERTICAL" prefHeight="200.0">
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+            </Separator>
+            <Button fx:id="button1" mnemonicParsing="false" prefHeight="78.0" text="其他工程">
+               <HBox.margin>
+                  <Insets top="1.0" />
+               </HBox.margin>
+            </Button>
          </children>
       </HBox>
    </center>
